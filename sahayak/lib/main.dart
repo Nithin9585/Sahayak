@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'screens/nali_kali_navigator_screen.dart';
 import 'screens/students_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/profile_screen.dart';
@@ -80,7 +80,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
 
   static const List<Widget> _screens = <Widget>[
-    HomeScreen(),
+    NaliKaliNavigatorScreen(),
     StudentsScreen(),
     ChatScreen(),
     ProfileScreen(),
@@ -109,8 +109,8 @@ class _MainScaffoldState extends State<MainScaffold> {
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.auto_stories),
+            label: 'Activities',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),

@@ -67,24 +67,24 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 ## Phase 3: Core UX - The "Nali Kali" Navigator 🔷 **Flutter**
 *Goal: Digitize the Nali Kali learning ladder and enable offline asset retrieval.*
 
-- [ ] **3.1 Data Ingestion & Seeding**
-  - [ ] Research and obtain Nali Kali implementation manuals (PDFs).
-  - [ ] Extract and structure data: `Milestones → Activities → Materials → Group Type`.
-  - [ ] Convert to JSON schema compatible with RxDB.
-  - [ ] Seed local database with static Nali Kali dataset.
-- [ ] **3.2 Navigator UI**
-  - [ ] Create `MilestoneSelectionScreen`:
-    - [ ] Display Learning Ladder as a visual tree/list.
-    - [ ] Tap on Milestone → Navigate to Activity Details.
-  - [ ] Create `ActivityDetailScreen`:
-    - [ ] Show Activity Card image.
-    - [ ] List required materials (e.g., "100 Tamarind seeds").
-    - [ ] Display group configuration (e.g., "Self-Learning Group").
-  - [ ] Implement "Material Checklist" toggle (Mark materials as "Available").
-- [ ] **3.3 Media Caching**
-  - [ ] Implement lazy-loading for activity images using `cached_network_image` package.
-  - [ ] Add "Pin for Offline" button to download high-res media to device storage (`path_provider` + `dio`).
-  - [ ] Display offline badge on cached content.
+- [x] **3.1 Data Ingestion & Seeding**
+  - [x] Research and obtain Nali Kali implementation manuals (PDFs).
+  - [x] Extract and structure data: `Milestones → Activities → Materials → Group Type`.
+  - [x] Convert to JSON schema compatible with RxDB.
+  - [x] Seed local database with static Nali Kali dataset.
+- [x] **3.2 Navigator UI**
+  - [x] Create `MilestoneSelectionScreen`:
+    - [x] Display Learning Ladder as a visual tree/list.
+    - [x] Tap on Milestone → Navigate to Activity Details.
+  - [x] Create `ActivityDetailScreen`:
+    - [x] Show Activity Card image.
+    - [x] List required materials (e.g., "100 Tamarind seeds").
+    - [x] Display group configuration (e.g., "Self-Learning Group").
+  - [x] Implement "Material Checklist" toggle (Mark materials as "Available").
+- [x] **3.3 Media Caching**
+  - [x] Implement lazy-loading for activity images using `cached_network_image` package.
+  - [x] Add "Pin for Offline" button to download high-res media to device storage (`path_provider` + `dio`).
+  - [x] Display offline badge on cached content.
 
 ---
 
