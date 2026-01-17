@@ -65,30 +65,30 @@ The architecture is dictated by "First Mile" constraints: intermittent connectiv
 ### 4.1 High-Level Architecture Diagram
 ```mermaid
 graph TD
-    User[Teacher] -->|Voice/Text| UI[Sahayak App (PWA/React Native)]
+    User[Teacher] -->|Voice/Text| UI["Sahayak App (PWA/React Native)"]
     
     subgraph "Edge / Device (Offline-First)"
-        UI -->|Offline Command| Vosk[Vosk / Whisper.cpp Model]
-        UI -->|Store/Retrieve| RxDB[RxDB / PouchDB (Local)]
-        UI -->|Ambient Monitor| TinyML[TinyML 'Pulse' Audio Monitor]
+        UI -->|Offline Command| Vosk["Vosk / Whisper.cpp Model"]
+        UI -->|Store/Retrieve| RxDB["RxDB / PouchDB (Local)"]
+        UI -->|Ambient Monitor| TinyML["TinyML 'Pulse' Audio Monitor"]
     end
     
     subgraph "Cloud / Backend"
-        UI -.->|Online Speech| Bhashini[Bhashini API]
-        RxDB <-->|Sync (JSON)| CouchDB[Cloud DB / Sunbird]
+        UI -.->|Online Speech| Bhashini["Bhashini API"]
+        RxDB <-->|Sync (JSON)| CouchDB["Cloud DB / Sunbird"]
         
-        UI -.->|Complex Query| Backend[App Server]
+        UI -.->|Complex Query| Backend["App Server"]
         Backend -->|RAG Pipeline| RAG
         
         subgraph "Intelligence Layer"
             RAG --> Guardrails
-            Guardrails --> VectorDB[(Vector DB)]
-            Guardrails --> LLM[LLM (Llama 3 / Mistral)]
-            VectorDB <--> Corpus[Pedagogical Corpus: Nali Kali, NCERT]
+            Guardrails --> VectorDB[("Vector DB")]
+            Guardrails --> LLM["LLM (Llama 3 / Mistral)"]
+            VectorDB <--> Corpus["Pedagogical Corpus: Nali Kali, NCERT"]
         end
         
-        UI -.->|Escalate| Elevate[ShikshaLokam Elevate (Mentor)]
-        UI -.->|Telemetry| Obsrv[Sunbird Obsrv]
+        UI -.->|Escalate| Elevate["ShikshaLokam Elevate (Mentor)"]
+        UI -.->|Telemetry| Obsrv["Sunbird Obsrv"]
     end
     
     style User fill:#f9f,stroke:#333,stroke-width:2px
