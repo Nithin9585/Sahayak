@@ -65,19 +65,19 @@ The architecture is dictated by "First Mile" constraints: intermittent connectiv
 ### 4.1 High-Level Architecture Diagram
 ```mermaid
 graph TD
-    User[Teacher] -->|Voice/Text| UI["Sahayak App (PWA/React Native)"]
+    User[Teacher] -->|Voice/Text| UI["Sahayak App (Flutter)"]
     
     subgraph "Edge / Device (Offline-First)"
-        UI -->|Offline Command| Vosk["Vosk / Whisper.cpp Model"]
-        UI -->|Store/Retrieve| RxDB["RxDB / PouchDB (Local)"]
+        UI -->|Offline Command| Vosk["Vosk / Whisper Model"]
+        UI -->|Store/Retrieve| DB["Isar / Sqflite (Local DB)"]
         UI -->|Ambient Monitor| TinyML["TinyML Pulse Audio Monitor"]
     end
     
     subgraph "Cloud / Backend"
         UI -.->|Online Speech| Bhashini["Bhashini API"]
-        RxDB <-->|Sync JSON| CouchDB["Cloud DB / Sunbird"]
+        DB <-->|Sync JSON| CouchDB["Cloud DB / Sunbird"]
         
-        UI -.->|Complex Query| Backend["App Server"]
+        UI -.->|Complex Query| Backend["FastAPI Server"]
         Backend -->|RAG Pipeline| RAG
         
         subgraph "Intelligence Layer"
@@ -93,23 +93,23 @@ graph TD
     
     style User fill:#f9f,stroke:#333,stroke-width:2px
     style UI fill:#bbf,stroke:#333,stroke-width:2px
-    style RxDB fill:#dfd,stroke:#333
+    style DB fill:#dfd,stroke:#333
     style Vosk fill:#dfd,stroke:#333
     style TinyML fill:#dfd,stroke:#333
 ```
 
-### 4.2 Offline-First PWA Implementation
-*   **App Shell**: Core UI cached via Workbox for instant load.
-*   **Data Sync**: Uses **RxDB** (Reactive Database) on top of **PouchDB**. 
-    *   *Local*: All data written locally first.
-    *   *Sync*: Automatic "Master-Master" replication with the backend CouchDB when online.
-*   **Assets**: "Lazy Loading" for heavy videos, with a "Pin" feature for caching specific modules.
+### 4.2 Offline-First Flutter Implementation
+*   **Local Storage**: Uses **Isar** (fast NoSQL database) or **Sqflite** (SQLite wrapper).
+*   **Data Sync**: 
+    *   *Local*: All data written locally first using Isar.
+    *   *Sync*: Custom sync logic with backend CouchDB using `http` package when online.
+*   **Assets**: "Lazy Loading" for heavy videos, with a "Pin" feature using Flutter's `cache_network_image` package.
 
 ### 4.3 Voice Interface: The Hybrid Stack
 *   **Online (Bhashini)**: Uses National Language Translation Mission APIs for high-accuracy, 22-language ASR and translation.
-*   **Offline (Vosk/Whisper)**: 
-    *   **Vosk**: Lightweight (<50MB) model for command-and-control grammar (e.g., "Open Math Module").
-    *   **Whisper.cpp**: React Native binding for higher accuracy dictation on supported devices.
+*   **Offline (Vosk/Flutter)**: 
+    *   **Vosk**: Uses `vosk_flutter` plugin with lightweight (<50MB) models for command-and-control.
+    *   **speech_to_text**: Flutter plugin for fallback speech recognition.
 
 ### 4.4 Intelligence Layer: RAG with Guardrails
 *   **Vector Knowledge Base**: Indexes high-quality PDFs (NCERT, Nali Kali Manuals) into **ChromaDB**.
@@ -119,7 +119,7 @@ graph TD
     *   *Citation*: Responses must cite the source document.
 
 ### 4.5 Edge AI: TinyML "Pulse"
-*   **Privacy-Preserving**: Runs on-device (DSP) using TensorFlow Lite for Microcontrollers.
+*   **Privacy-Preserving**: Runs on-device using `tflite_flutter` plugin.
 *   **Function**: Classification of audio into "Focused Work" vs "Chaotic Noise" without recording speech.
 *   **Intervention**: Triggers a silent vibration/nudge if chaos persists > 5 mins.
 
@@ -167,4 +167,4 @@ Project Sahayak bridges the gap between the high-level policy of NEP 2020 and th
 *   **ShikshaLokam**: `shikshalokam.org` (Elevate, Sunbird)
 *   **Nali Kali**: Azim Premji University / Karnataka State Dept Studies
 *   **TaRL**: Pratham / J-PAL Evidence
-*   **Tech Stack**: React Native, RxDB, Vosk, TensorFlow Lite Micro
+*   **Tech Stack**: Flutter (Dart), FastAPI (Python), Isar, Vosk, TFLite

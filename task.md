@@ -8,28 +8,32 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 *Goal: Set up the development environment, initialize the app, and establish the core offline-first architecture.*
 
 - [ ] **1.1 Environment Setup**
-  - [ ] Install Node.js (v18+), React Native CLI, JDK 11, and Android Studio.
-  - [ ] Configure Android Emulator or Physical Device debugging.
+  - [ ] Install Flutter SDK (v3.19+): Download from `flutter.dev`.
+  - [ ] Install Dart SDK (bundled with Flutter).
+  - [ ] Install Android Studio (for Android emulator) or VS Code with Flutter extension.
+  - [ ] Run `flutter doctor` to verify installation.
   - [ ] Set up Git repository and initial commit.
 - [ ] **1.2 App Initialization**
-  - [ ] Initialize React Native project: `npx react-native init Sahayak`.
-  - [ ] Install Navigation: `@react-navigation/native` (Stack, Drawer, Tab).
-  - [ ] Install UI Library: `react-native-paper` or `NativeWind`.
-- [ ] **1.3 Offline-First Database Setup (RxDB/PouchDB)**
-  - [ ] Install RxDB: `npm install rxdb rxjs pouchdb-adapter-idb`.
-  - [ ] Define Database Schemas:
+  - [ ] Create Flutter project: `flutter create sahayak`.
+  - [ ] Install Navigation: `go_router` package.
+  - [ ] Install UI Library: `flutter_material` (built-in) + `flutter_animate` for animations.
+- [ ] **1.3 Offline-First Database Setup (Isar)**
+  - [ ] Install Isar: `flutter pub add isar isar_flutter_libs`.
+  - [ ] Install dev dependencies: `flutter pub add -d isar_generator build_runner`.
+  - [ ] Define Database Schemas (Isar models):
     - [ ] `Teacher` (Profile, School ID, subjects).
     - [ ] `Student` (Name, FLN Level, Group assignment).
     - [ ] `Assessment` (Student ID, Date, Rubric scores, Level calculated).
     - [ ] `Activity` (Nali Kali/TaRL content cache).
     - [ ] `MicroStrategy` (Classroom management techniques).
     - [ ] `ChatHistory` (RAG queries and responses).
-  - [ ] Configure PouchDB replication to backend CouchDB (when online).
-- [ ] **1.4 Application Shell & Service Worker**
-  - [ ] Build Main Layout: Bottom Tab Navigation (Home, Students, Chat, Profile).
-  - [ ] Implement PWA-style caching using Workbox (for web version).
-  - [ ] Create "Offline Mode" indicator in header.
-  - [ ] Set up auto-sync trigger on network reconnect.
+  - [ ] Generate Isar files: `dart run build_runner build`.
+  - [ ] Configure sync logic to backend CouchDB using `dio` package (when online).
+- [ ] **1.4 Application Shell**
+  - [ ] Build Main Layout: Bottom Navigation Bar (Home, Students, Chat, Profile).
+  - [ ] Create "Offline Mode" indicator widget.
+  - [ ] Set up connectivity listener using `connectivity_plus` package.
+  - [ ] Implement auto-sync trigger on network reconnect.
 
 ---
 
@@ -73,8 +77,8 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
     - [ ] Display group configuration (e.g., "Self-Learning Group").
   - [ ] Implement "Material Checklist" toggle (Mark materials as "Available").
 - [ ] **3.3 Media Caching**
-  - [ ] Implement lazy-loading for activity images.
-  - [ ] Add "Pin for Offline" button to download high-res media to device storage (`react-native-fs`).
+  - [ ] Implement lazy-loading for activity images using `cached_network_image` package.
+  - [ ] Add "Pin for Offline" button to download high-res media to device storage (`path_provider` + `dio`).
   - [ ] Display offline badge on cached content.
 
 ---
@@ -130,26 +134,26 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 *Goal: Enable hands-free interaction using both online and offline voice models.*
 
 - [ ] **6.1 Permission Handling**
-  - [ ] Request Microphone and Storage permissions (Android Manifest).
+  - [ ] Request Microphone and Storage permissions using `permission_handler` package.
   - [ ] Build permission request flow with educational prompts.
-- [ ] **6.2 Offline Voice (Vosk/Whisper)**
-  - [ ] Install `@react-native-vosk/vosk` or `whisper.rn`.
+- [ ] **6.2 Offline Voice (Vosk/Flutter)**
+  - [ ] Install `vosk_flutter` package.
   - [ ] Download language models:
     - [ ] Vosk Hindi Small (~50MB).
     - [ ] Vosk English Small (~40MB).
-  - [ ] Store models in app's internal storage.
-  - [ ] Implement "Push-to-Talk" button with recording indicator.
-  - [ ] Map voice commands to app actions:
+  - [ ] Store models in assets or download to app documents directory (`path_provider`).
+  - [ ] Implement "Push-to-Talk" button with recording indicator using `flutter_sound`.
+  - [ ] Map voice commands to app actions using GoRouter:
     - [ ] "Open Math" → Navigate to Math activities.
     - [ ] "Start Assessment" → Launch AssessmentWizard.
     - [ ] "Find Silent Ball" → Search Micro-Strategies.
 - [ ] **6.3 Online Voice (Bhashini API)**
   - [ ] Register at Bhashini portal and obtain API credentials.
-  - [ ] Create API wrapper service:
+  - [ ] Create API wrapper service using `dio` package:
     - [ ] `bhashiniASR(audioBlob, language)` → Transcribed text.
     - [ ] `bhashiniTranslate(text, sourceLang, targetLang)` → Translated text.
   - [ ] Implement auto-switch logic:
-    - [ ] Check network status.
+    - [ ] Check network status using `connectivity_plus`.
     - [ ] Use Bhashini if online, fallback to Vosk if offline.
   - [ ] Add language selector in settings (Hindi, Kannada, English).
 
@@ -209,15 +213,15 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
     - [ ] Model size: < 20KB.
   - [ ] Test model on desktop with sample audio.
 - [ ] **8.2 TFLite Integration**
-  - [ ] Install `react-native-fast-tflite`.
-  - [ ] Load `.tflite` model from assets.
+  - [ ] Install `tflite_flutter` package.
+  - [ ] Load `.tflite` model from Flutter assets.
   - [ ] Create audio processing pipeline:
-    - [ ] Capture 3-second audio buffer every 10 seconds.
+    - [ ] Capture 3-second audio buffer every 10 seconds using `record` package.
     - [ ] Convert to spectrogram (MFCC features).
     - [ ] Run inference.
 - [ ] **8.3 Background Service**
-  - [ ] Use `react-native-background-actions` for continuous monitoring.
-  - [ ] Store state: Last 5 classifications (e.g., `["Focused", "Focused", "Chaos", "Chaos", "Chaos"]`).
+  - [ ] Use `workmanager` or `android_alarm_manager_plus` for background tasks.
+  - [ ] Store state: Last 5 classifications in Isar database.
 - [ ] **8.4 Intervention Logic**
   - [ ] If "Chaos" detected for > 5 minutes:
     - [ ] Trigger vibration.
@@ -257,15 +261,15 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 10: PWA Deployment (Optional Web Version)
-*Goal: Deploy a Progressive Web App version for desktop access.*
+## Phase 10: Flutter Web Deployment (Optional Web Version)
+*Goal: Deploy a Flutter Web version for desktop access.*
 
 - [ ] **10.1 Web Build Setup**
-  - [ ] Use React Native Web to compile app for browsers.
-  - [ ] Configure Webpack for PWA manifest and service workers.
+  - [ ] Enable Flutter web: `flutter config --enable-web`.
+  - [ ] Build for web: `flutter build web`.
 - [ ] **10.2 Service Worker Configuration**
-  - [ ] Use Workbox to cache:
-    - [ ] App Shell (HTML, CSS, JS).
+  - [ ] Flutter web automatically generates service workers.
+  - [ ] Customize `flutter_service_worker.js` to cache:
     - [ ] Static assets (logos, fonts).
     - [ ] API responses (stale-while-revalidate strategy).
 - [ ] **10.3 Deployment**
@@ -279,10 +283,10 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 - [ ] **11.1 Unit and Integration Testing**
   - [ ] Write tests for:
-    - [ ] RxDB schema validation.
+    - [ ] Isar schema validation.
     - [ ] TaRL grouping algorithm accuracy.
     - [ ] Voice command mapping logic.
-  - [ ] Use Jest and React Native Testing Library.
+  - [ ] Use Flutter's built-in `test` package and `integration_test`.
 - [ ] **11.2 Offline Mode Testing**
   - [ ] Enable Airplane Mode and test all core features:
     - [ ] Navigate Nali Kali content.
@@ -305,11 +309,11 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 *Goal: Create a premium, accessible user experience.*
 
 - [ ] **12.1 Design System**
-  - [ ] Define color palette (vibrant, high contrast).
-  - [ ] Choose typography (Google Fonts: Inter, Noto Sans).
-  - [ ] Create reusable component library (Buttons, Cards, Modals).
+  - [ ] Define color palette using Material Theme with custom colors.
+  - [ ] Add Google Fonts using `google_fonts` package (Inter, Noto Sans).
+  - [ ] Create reusable widget library (Custom Buttons, Cards, Modals).
 - [ ] **12.2 Animations**
-  - [ ] Add Lottie animations:
+  - [ ] Add Lottie animations using `lottie` package:
     - [ ] Success states (Assessment completed, Level Up!).
     - [ ] Loading states (Syncing data, Processing voice).
   - [ ] Implement smooth transitions between screens.
@@ -367,8 +371,10 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
   - [ ] Add captions and background music.
 - [ ] **14.3 APK/IPA Generation**
   - [ ] Generate signed Android APK:
-    - [ ] `cd android && ./gradlew assembleRelease`.
-  - [ ] (Optional) Build iOS IPA via Xcode.
+    - [ ] Create keystore: `keytool -genkey -v -keystore sahayak-key.jks`.
+    - [ ] Configure `android/key.properties`.
+    - [ ] Build APK: `flutter build apk --release`.
+  - [ ] (Optional) Build iOS IPA: `flutter build ipa --release`.
   - [ ] Test installation on physical devices.
 - [ ] **14.4 Hackathon Submission**
   - [ ] Upload APK to submission portal.
