@@ -128,8 +128,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
 
-            ),
-          ),
 
           // Suggestion Chips (Sunita's Context)
           SingleChildScrollView(
