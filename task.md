@@ -2,9 +2,14 @@
 
 This document outlines the step-by-step roadmap to build **Project Sahayak**, ensuring a complete, production-ready solution aligned with the architecture defined in `Problem_solution.md`.
 
+## 📋 Task Types Legend
+- **🔷 Flutter** - Mobile app development (Dart/Flutter)
+- **🟧 FastAPI** - Backend server development (Python)
+- **🔄 Both** - Requires coordination between frontend and backend
+
 ---
 
-## Phase 1: Project Initialization & Foundation
+## Phase 1: Project Initialization & Foundation 🔷 **Flutter**
 *Goal: Set up the development environment, initialize the app, and establish the core offline-first architecture.*
 
 - [x] **1.1 Environment Setup**
@@ -37,7 +42,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 2: Backend Infrastructure Setup
+## Phase 2: Backend Infrastructure Setup 🟧 **FastAPI**
 *Goal: Deploy backend services for sync, RAG, and telemetry.*
 
 - [ ] **2.1 Database Server (CouchDB)**
@@ -59,7 +64,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 3: Core UX - The "Nali Kali" Navigator
+## Phase 3: Core UX - The "Nali Kali" Navigator 🔷 **Flutter**
 *Goal: Digitize the Nali Kali learning ladder and enable offline asset retrieval.*
 
 - [ ] **3.1 Data Ingestion & Seeding**
@@ -83,7 +88,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 4: FLN "TaRL" Accelerator
+## Phase 4: FLN "TaRL" Accelerator 🔷 **Flutter**
 *Goal: Operationalize the "Teaching at the Right Level" assessment and grouping logic.*
 
 - [ ] **4.1 Assessment Module**
@@ -107,7 +112,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 5: Classroom Management Micro-Strategies
+## Phase 5: Classroom Management Micro-Strategies 🔷 **Flutter**
 *Goal: Build a searchable library of 2-minute interventions to reset classroom energy.*
 
 - [ ] **5.1 Data Collection**
@@ -130,7 +135,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 6: Voice Interface (The Hybrid Stack)
+## Phase 6: Voice Interface (The Hybrid Stack) 🔄 **Both**
 *Goal: Enable hands-free interaction using both online and offline voice models.*
 
 - [ ] **6.1 Permission Handling**
@@ -159,7 +164,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 7: Intelligence Layer (RAG & Guardrails)
+## Phase 7: Intelligence Layer (RAG & Guardrails) 🟧 **FastAPI**
 *Goal: Provide pedagogical answers using a Retrieval Augmented Generation pipeline.*
 
 - [ ] **7.1 Corpus Preparation**
@@ -204,7 +209,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 8: Edge AI "Pulse" Monitor
+## Phase 8: Edge AI "Pulse" Monitor 🔷 **Flutter**
 *Goal: Passive classroom noise monitoring using TinyML.*
 
 - [ ] **8.1 TFLite Model Preparation**
@@ -230,7 +235,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 9: Ecosystem Integration (Elevate & Sunbird)
+## Phase 9: Ecosystem Integration (Elevate & Sunbird) 🔄 **Both**
 *Goal: Connect the local app to the broader state infrastructure.*
 
 - [ ] **9.1 Elevate Mentor Integration**
@@ -261,7 +266,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 10: Flutter Web Deployment (Optional Web Version)
+## Phase 10: Flutter Web Deployment (Optional Web Version) 🔷 **Flutter**
 *Goal: Deploy a Flutter Web version for desktop access.*
 
 - [ ] **10.1 Web Build Setup**
@@ -278,7 +283,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 11: Testing, Security & Compliance
+## Phase 11: Testing, Security & Compliance 🔄 **Both**
 *Goal: Ensure reliability, data privacy, and production readiness.*
 
 - [ ] **11.1 Unit and Integration Testing**
@@ -305,7 +310,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 12: UI/UX Polish & Accessibility
+## Phase 12: UI/UX Polish & Accessibility 🔷 **Flutter**
 *Goal: Create a premium, accessible user experience.*
 
 - [ ] **12.1 Design System**
@@ -325,7 +330,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 13: Documentation & Handoff
+## Phase 13: Documentation & Handoff 🔄 **Both**
 *Goal: Create comprehensive documentation for maintainers and contributors.*
 
 - [ ] **13.1 Technical Documentation**
@@ -353,7 +358,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 14: Demo Preparation & Launch
+## Phase 14: Demo Preparation & Launch 🔄 **Both**
 *Goal: Prepare for hackathon presentation and public release.*
 
 - [ ] **14.1 Demo Mode**
@@ -383,7 +388,7 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 
 ---
 
-## Phase 15: Post-Launch & Iteration
+## Phase 15: Post-Launch & Iteration 🔄 **Both**
 *Goal: Gather feedback and iterate based on real-world usage.*
 
 - [ ] **15.1 Pilot Deployment (HD Kote Block)**
