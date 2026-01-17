@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../models/student.dart';
+import 'reading_assessment_screen.dart';
 import '../data/tarl_rubrics.dart';
 import '../services/student_service.dart';
+import '../widgets/fade_in_wrapper.dart';
 
 class AssessmentWizardScreen extends StatefulWidget {
   final Student student;
@@ -115,16 +117,43 @@ class _AssessmentWizardScreenState extends State<AssessmentWizardScreen> {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 16),
-        ...TaRLRubrics.readingLevels.map((level) {
-          return _buildLevelCard(
-            level: level['level'],
-            description: level['description'],
-            assessment: level['assessment'],
-            color: Color(level['color']),
-            isSelected: _selectedReadingLevel == level['level'],
-            onTap: () {
-              setState(() => _selectedReadingLevel = level['level']);
+        // Smart Assist Button
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton.icon(
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ReadingAssessmentScreen(studentName: widget.student.name)),
+              );
+              if (result != null) {
+                setState(() => _selectedReadingLevel = result);
+              }
             },
+            icon: const Icon(Icons.touch_app_rounded),
+            label: const Text('Use Smart Assessor Tool'),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.blue.shade50,
+              foregroundColor: Colors.blue.shade900,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        ...TaRLRubrics.readingLevels.asMap().entries.map((entry) {
+          final index = entry.key;
+          final level = entry.value;
+          return FadeInWrapper(
+            delay: index * 100,
+            child: _buildLevelCard(
+              level: level['level'],
+              description: level['description'],
+              assessment: level['assessment'],
+              color: Color(level['color']),
+              isSelected: _selectedReadingLevel == level['level'],
+              onTap: () {
+                setState(() => _selectedReadingLevel = level['level']);
+              },
+            ),
           );
         }),
       ],
@@ -140,16 +169,21 @@ class _AssessmentWizardScreenState extends State<AssessmentWizardScreen> {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 16),
-        ...TaRLRubrics.mathLevels.map((level) {
-          return _buildLevelCard(
-            level: level['level'],
-            description: level['description'],
-            assessment: level['assessment'],
-            color: Color(level['color']),
-            isSelected: _selectedMathLevel == level['level'],
-            onTap: () {
-              setState(() => _selectedMathLevel = level['level']);
-            },
+        ...TaRLRubrics.mathLevels.asMap().entries.map((entry) {
+          final index = entry.key;
+          final level = entry.value;
+          return FadeInWrapper(
+            delay: index * 100,
+            child: _buildLevelCard(
+              level: level['level'],
+              description: level['description'],
+              assessment: level['assessment'],
+              color: Color(level['color']),
+              isSelected: _selectedMathLevel == level['level'],
+              onTap: () {
+                setState(() => _selectedMathLevel = level['level']);
+              },
+            ),
           );
         }),
       ],
@@ -164,37 +198,49 @@ class _AssessmentWizardScreenState extends State<AssessmentWizardScreen> {
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    return Card(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       margin: const EdgeInsets.only(bottom: 12),
-      elevation: isSelected ? 4 : 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: isSelected
-              ? Theme.of(context).colorScheme.primary
-              : Colors.transparent,
-          width: 2,
+      decoration: BoxDecoration(
+        color: isSelected ? color.withOpacity(0.05) : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isSelected ? color : Colors.grey[200]!,
+          width: isSelected ? 2 : 1,
         ),
+        boxShadow: isSelected
+            ? [BoxShadow(color: color.withOpacity(0.2), blurRadius: 8, offset: const Offset(0, 4))]
+            : [],
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: color, width: 2),
+                  color: isSelected ? color : color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: isSelected
-                    ? Icon(Icons.check, color: color)
-                    : null,
+                child: Center(
+                  child: isSelected
+                      ? const Icon(Icons.check_rounded, color: Colors.white)
+                      : Text(
+                          level[0],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                            fontSize: 18,
+                          ),
+                        ),
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -206,34 +252,34 @@ class _AssessmentWizardScreenState extends State<AssessmentWizardScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: isSelected
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.black87,
+                        color: isSelected ? color : Colors.black87,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       description,
-                      style: const TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: color.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey[200]!),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.info_outline, size: 16, color: color),
+                          Icon(Icons.info_outline_rounded, size: 16, color: color),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               assessment,
                               style: TextStyle(
-                                fontSize: 12,
-                                color: color.withOpacity(0.8),
+                                fontSize: 13,
+                                color: Colors.grey[600],
+                                height: 1.3,
                               ),
                             ),
                           ),

@@ -57,12 +57,12 @@ class _GroupingViewScreenState extends State<GroupingViewScreen> {
                 ButtonSegment(
                   value: 'Reading',
                   label: Text('Reading'),
-                  icon: Icon(Icons.book),
+                  icon: Icon(Icons.menu_book_rounded),
                 ),
                 ButtonSegment(
                   value: 'Math',
                   label: Text('Math'),
-                  icon: Icon(Icons.calculate),
+                  icon: Icon(Icons.calculate_rounded),
                 ),
               ],
             ),
@@ -78,7 +78,7 @@ class _GroupingViewScreenState extends State<GroupingViewScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.groups_outlined,
+                              Icons.groups_rounded,
                               size: 80,
                               color: Colors.grey[300],
                             ),
@@ -190,7 +190,7 @@ class _GroupingViewScreenState extends State<GroupingViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Icon(
-                          Icons.lightbulb_outline,
+                          Icons.lightbulb_rounded,
                           color: Colors.blue.shade700,
                           size: 20,
                         ),

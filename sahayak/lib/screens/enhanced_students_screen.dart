@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/student.dart';
 import '../services/student_service.dart';
+import '../services/locale_service.dart';
 import 'assessment_wizard_screen.dart';
 import 'grouping_view_screen.dart';
+import 'student_detail_screen.dart';
+import '../widgets/fade_in_wrapper.dart';
 
 class EnhancedStudentsScreen extends StatefulWidget {
   const EnhancedStudentsScreen({super.key});
@@ -38,6 +41,23 @@ class _EnhancedStudentsScreenState extends State<EnhancedStudentsScreen> {
         );
       }
     }
+  }
+
+  Future<void> _seedSampleStudents() async {
+    setState(() => _isLoading = true);
+    final names = ['Ananya', 'Raju', 'Priya', 'Mohan', 'Lakshmi', 'Suresh'];
+    final levels = ['Story Level', 'Word Level', 'Beginner Level', 'Paragraph Level', 'Story Level', 'Word Level'];
+    
+    for (var i = 0; i < names.length; i++) {
+       final s = Student()
+        ..name = names[i]
+        ..age = 8 + (i % 3)
+        ..gender = i % 2 == 0 ? 'Female' : 'Male'
+        ..readingLevel = levels[i]
+        ..createdAt = DateTime.now();
+       await _studentService.addStudent(s);
+    }
+    await _loadStudents();
   }
 
   void _showAddStudentDialog() {
@@ -120,14 +140,89 @@ class _EnhancedStudentsScreenState extends State<EnhancedStudentsScreen> {
     );
   }
 
+  Widget _buildClassAnalytics() {
+   // Calculate counts
+   int levelStory = _students.where((s) => s.readingLevel == 'Story Level').length;
+   int levelPara = _students.where((s) => s.readingLevel == 'Paragraph Level').length;
+   int levelWord = _students.where((s) => s.readingLevel == 'Word Level').length;
+   int levelBeginner = _students.where((s) => s.readingLevel == 'Beginner Level' || s.readingLevel == null).length;
+   int total = _students.length;
+   
+   // if (total == 0) return const SizedBox.shrink(); // Disabled to show chart always
+
+   return Container(
+     margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+     padding: const EdgeInsets.all(16),
+     decoration: BoxDecoration(
+       color: Colors.white,
+       borderRadius: BorderRadius.circular(16),
+       boxShadow: [BoxShadow(color: Colors.grey.shade100, blurRadius: 4, offset:const Offset(0,2))],
+     ),
+     child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: [
+          const Text('Class Reading Levels', style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Row(
+               children: [
+                 _buildBarSegment(levelStory, total, Colors.green),
+                 _buildBarSegment(levelPara, total, Colors.lightGreen),
+                 _buildBarSegment(levelWord, total, Colors.orange),
+                 _buildBarSegment(levelBeginner, total, Colors.redAccent),
+               ],
+            ),
+          ),
+          const SizedBox(height: 12),
+           Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildLegend('Story', levelStory, Colors.green),
+              _buildLegend('Para', levelPara, Colors.lightGreen),
+              _buildLegend('Word', levelWord, Colors.orange),
+              _buildLegend('Start', levelBeginner, Colors.redAccent),
+            ],
+          )
+       ],
+     ),
+   );
+ }
+
+ Widget _buildBarSegment(int count, int total, Color color) {
+    if (count == 0) return const SizedBox.shrink();
+    return Expanded(
+      flex: count,
+      child: Container(
+        height: 16,
+        color: color,
+      ),
+    ); 
+ }
+ 
+ Widget _buildLegend(String label, int count, Color color) {
+   return Row(
+     children: [
+       CircleAvatar(radius: 4, backgroundColor: color),
+       const SizedBox(width: 4),
+       Text('$label: $count', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+     ],
+   );
+ }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Students'),
+        title: Text(AppStrings.get('students_title')),
         actions: [
           IconButton(
-            icon: const Icon(Icons.view_list),
+            icon: const Icon(Icons.cloud_upload_rounded),
+            onPressed: _seedSampleStudents, // New Function
+            tooltip: 'Seed Sample Data',
+          ),
+          IconButton(
+            icon: const Icon(Icons.view_list_rounded),
             onPressed: () {
               Navigator.push(
                 context,
@@ -142,46 +237,30 @@ class _EnhancedStudentsScreenState extends State<EnhancedStudentsScreen> {
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : _students.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.people_outline,
-                        size: 100,
-                        color: Colors.grey[300],
+          : Column( // Always show column
+                  children: [
+                    _buildClassAnalytics(), // Show this always
+                    Expanded(
+                      child: _students.isEmpty 
+                        ? Center(child: Text('Add students to see analytics'))
+                        : ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: _students.length,
+                        itemBuilder: (context, index) {
+                          final student = _students[index];
+                          return FadeInWrapper(
+                            delay: index * 100,
+                            child: _buildStudentCard(student),
+                          );
+                        },
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No students added yet',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Tap + to add your first student',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[500],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: _students.length,
-                  itemBuilder: (context, index) {
-                    final student = _students[index];
-                    return _buildStudentCard(student);
-                  },
+                    ),
+                  ],
                 ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddStudentDialog,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add_rounded),
+        tooltip: AppStrings.get('btn_add_student'),
       ),
     );
   }
@@ -192,6 +271,14 @@ class _EnhancedStudentsScreenState extends State<EnhancedStudentsScreen> {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+               builder: (context) => StudentDetailScreen(student: student),
+            ),
+          );
+        },
         leading: CircleAvatar(
           backgroundColor: hasAssessment
               ? Theme.of(context).colorScheme.tertiary
@@ -219,7 +306,7 @@ class _EnhancedStudentsScreenState extends State<EnhancedStudentsScreen> {
               ),
         trailing: IconButton(
           icon: Icon(
-            hasAssessment ? Icons.edit : Icons.assignment,
+            hasAssessment ? Icons.edit_rounded : Icons.assignment_rounded,
             color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () async {

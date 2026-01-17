@@ -6,15 +6,16 @@ part 'micro_strategy.g.dart';
 class MicroStrategy {
   Id id = Isar.autoIncrement;
 
-  late String title; // e.g., "The Graveyard", "Silent Ball"
-  late String energyLevel; // "High", "Low", "Transition"
-  late int durationMinutes; // 1, 2, 5
-
-  late String type; // "Gamified Silence", "Call-and-Response", "Movement"
-  late String instructions;
-
-  String? whenToUse; // Contextual guidance
-  bool isFavorite = false; // Quick access flag
-
-  DateTime createdAt = DateTime.now();
+  late String title;
+  late String description;
+  late String content; // The script/steps
+  
+  @Index()
+  late String category; // e.g., "Silence", "Focus", "Energy"
+  
+  late String energyLevel; // "High", "Low", "Neutral"
+  
+  late int durationSeconds; // e.g., 120 (2 mins)
+  
+  late String iconName; // For UI mapping
 }
