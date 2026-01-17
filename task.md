@@ -29,11 +29,11 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
     - [x] `ChatHistory` (RAG queries and responses).
   - [x] Generate Isar files: `dart run build_runner build`.
   - [ ] Configure sync logic to backend CouchDB using `dio` package (when online).
-- [ ] **1.4 Application Shell**
-  - [ ] Build Main Layout: Bottom Navigation Bar (Home, Students, Chat, Profile).
-  - [ ] Create "Offline Mode" indicator widget.
-  - [ ] Set up connectivity listener using `connectivity_plus` package.
-  - [ ] Implement auto-sync trigger on network reconnect.
+- [x] **1.4 Application Shell**
+  - [x] Build Main Layout: Bottom Navigation Bar (Home, Students, Chat, Profile).
+  - [x] Create "Offline Mode" indicator widget.
+  - [x] Set up connectivity listener using `connectivity_plus` package.
+  - [x] Implement auto-sync trigger on network reconnect.
 
 ---
 
