@@ -70,12 +70,12 @@ graph TD
     subgraph "Edge / Device (Offline-First)"
         UI -->|Offline Command| Vosk["Vosk / Whisper.cpp Model"]
         UI -->|Store/Retrieve| RxDB["RxDB / PouchDB (Local)"]
-        UI -->|Ambient Monitor| TinyML["TinyML 'Pulse' Audio Monitor"]
+        UI -->|Ambient Monitor| TinyML["TinyML Pulse Audio Monitor"]
     end
     
     subgraph "Cloud / Backend"
         UI -.->|Online Speech| Bhashini["Bhashini API"]
-        RxDB <-->|Sync (JSON)| CouchDB["Cloud DB / Sunbird"]
+        RxDB <-->|Sync JSON| CouchDB["Cloud DB / Sunbird"]
         
         UI -.->|Complex Query| Backend["App Server"]
         Backend -->|RAG Pipeline| RAG
