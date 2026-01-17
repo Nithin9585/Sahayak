@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'screens/nali_kali_navigator_screen.dart';
-import 'screens/students_screen.dart';
+import 'screens/enhanced_students_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/profile_screen.dart';
 import 'widgets/offline_indicator.dart';
+import 'services/student_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Isar database
+  await StudentService.initialize();
+  
   runApp(const SahayakApp());
 }
 
@@ -81,7 +87,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   static const List<Widget> _screens = <Widget>[
     NaliKaliNavigatorScreen(),
-    StudentsScreen(),
+    EnhancedStudentsScreen(),
     ChatScreen(),
     ProfileScreen(),
   ];

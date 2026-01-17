@@ -91,24 +91,24 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 ## Phase 4: FLN "TaRL" Accelerator 🔷 **Flutter**
 *Goal: Operationalize the "Teaching at the Right Level" assessment and grouping logic.*
 
-- [ ] **4.1 Assessment Module**
-  - [ ] Build `StudentListScreen` with CRUD operations.
-  - [ ] Create `AssessmentWizard`:
-    - [ ] **Reading Rubric**: Levels (Beginner, Letter, Word, Paragraph, Story).
-    - [ ] **Math Rubric**: Levels (Recognition, Comparison, Addition, Subtraction, Division).
-    - [ ] Real-time error tracking UI (tap on error type).
-    - [ ] Auto-calculate and save "Current Level" to Student record.
-- [ ] **4.2 Grouping Logic Engine**
-  - [ ] Implement algorithm: Group students by current level.
-  - [ ] Create `GroupViewScreen`:
-    - [ ] Display groups as cards (e.g., "Word Level Group: 8 students").
-    - [ ] Show recommended activity from TaRL library.
-- [ ] **4.3 Activity Script Library**
-  - [ ] Create database table for scripted activities (e.g., "Bundle and Sticks").
-  - [ ] Build `ScriptViewScreen`:
-    - [ ] Step-by-step instructions with images.
-    - [ ] Voice readout option (TTS).
-  - [ ] Link scripts to TaRL levels in the database.
+- [x] **4.1 Assessment Module**
+  - [x] Build `StudentListScreen` with CRUD operations.
+  - [x] Create `AssessmentWizard`:
+    - [x] **Reading Rubric**: Levels (Beginner, Letter, Word, Paragraph, Story).
+    - [x] **Math Rubric**: Levels (Recognition, Comparison, Addition, Subtraction, Division).
+    - [x] Real-time error tracking UI (tap on error type).
+    - [x] Auto-calculate and save "Current Level" to Student record.
+- [x] **4.2 Grouping Logic Engine**
+  - [x] Implement algorithm: Group students by current level.
+  - [x] Create `GroupViewScreen`:
+    - [x] Display groups as cards (e.g., "Word Level Group: 8 students").
+    - [x] Show recommended activity from TaRL library.
+- [x] **4.3 Activity Script Library**
+  - [x] Create database table for scripted activities (e.g., "Bundle and Sticks").
+  - [x] Build `ScriptViewScreen`:
+    - [x] Step-by-step instructions with images.
+    - [x] Voice readout option (TTS).
+  - [x] Link scripts to TaRL levels in the database.
 
 ---
 
