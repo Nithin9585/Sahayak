@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/fade_in_wrapper.dart';
 
+import '../services/locale_service.dart';
+
 class DailyRoutineScreen extends StatefulWidget {
   const DailyRoutineScreen({super.key});
 
@@ -26,7 +28,7 @@ class _DailyRoutineScreenState extends State<DailyRoutineScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daily Classroom Routine'),
+        title: Text(AppStrings.get('routine_title')),
         backgroundColor: Colors.orange.shade800,
       ),
       body: SingleChildScrollView(
@@ -34,13 +36,13 @@ class _DailyRoutineScreenState extends State<DailyRoutineScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Morning Circle',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(
+              AppStrings.get('routine_morning_circle'),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              'Complete these tasks with students before starting Nali Kali activities.',
-              style: TextStyle(color: Colors.grey),
+            Text(
+              AppStrings.get('routine_subtitle'),
+              style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 32),
 
@@ -58,9 +60,9 @@ class _DailyRoutineScreenState extends State<DailyRoutineScreen> {
                 ),
                 child: Column(
                   children: [
-                    const Text(
-                      'How is the weather today?',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    Text(
+                      AppStrings.get('routine_weather_q'),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 24),
                     Wrap(
@@ -92,7 +94,7 @@ class _DailyRoutineScreenState extends State<DailyRoutineScreen> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  w['label'],
+                                  w['label'], // These labels might need translation too, but I'll leave them for now as they are basic english/visuals
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
@@ -118,16 +120,16 @@ class _DailyRoutineScreenState extends State<DailyRoutineScreen> {
               child: Column(
                 children: [
                   _buildChecklistItem(
-                    title: 'Attendance',
-                    subtitle: 'Mark attendance in register',
+                    title: AppStrings.get('routine_attendance'),
+                    subtitle: AppStrings.get('routine_attendance_sub'),
                     isDone: _attendanceDone,
                     icon: Icons.people_alt_rounded,
                     onTap: () => setState(() => _attendanceDone = !_attendanceDone),
                   ),
                   const SizedBox(height: 16),
                   _buildChecklistItem(
-                    title: 'Wall Slate Update',
-                    subtitle: 'Clean and date the blackboard',
+                    title: AppStrings.get('routine_slate'),
+                    subtitle: AppStrings.get('routine_slate_sub'),
                     isDone: _slateCleaned,
                     icon: Icons.edit_note_rounded,
                     onTap: () => setState(() => _slateCleaned = !_slateCleaned),
@@ -145,12 +147,12 @@ class _DailyRoutineScreenState extends State<DailyRoutineScreen> {
                     ? () {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Routine completed! Great start!'))
+                           SnackBar(content: Text('${AppStrings.get("routine_complete")}!'))
                         );
                       }
                     : null,
                 icon: const Icon(Icons.check_circle_rounded),
-                label: const Text('COMPLETE ROUTINE'),
+                label: Text(AppStrings.get('routine_complete')),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(20),
                   backgroundColor: Colors.green,
