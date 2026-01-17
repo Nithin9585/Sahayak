@@ -17,11 +17,51 @@ class SahayakApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sahayak - Pedagogical Copilot',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF4CAF50), // Green for education
-          brightness: Brightness.light,
+        colorScheme: ColorScheme.light(
+          // Primary: Deep Teal (60% - Headers, Navigation)
+          primary: const Color(0xFF00695C),
+          onPrimary: Colors.white,
+          
+          // Secondary: Amber/Marigold (10% - CTAs, Mic button)
+          secondary: const Color(0xFFFF8F00),
+          onSecondary: Colors.white,
+          
+          // Accent: Soft Teal (Highlights, active states)
+          tertiary: const Color(0xFF4DB6AC),
+          onTertiary: Colors.white,
+          
+          // Background: Off-White (30%)
+          surface: const Color(0xFFF7F9FA),
+          onSurface: const Color(0xFF263238), // Dark Blue-Grey text
+          
+          // Error states
+          error: const Color(0xFFD32F2F),
+          onError: Colors.white,
         ),
         useMaterial3: true,
+        
+        // AppBar styling
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF00695C), // Deep Teal
+          foregroundColor: Colors.white,
+          elevation: 2,
+        ),
+        
+        // FloatingActionButton (Mic button)
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Color(0xFFFF8F00), // Amber
+          foregroundColor: Colors.white,
+        ),
+        
+        // Card styling
+        cardTheme: CardThemeData(
+          color: Colors.white,
+          elevation: 1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(color: const Color(0xFF4DB6AC).withOpacity(0.2)),
+          ),
+        ),
       ),
       home: const MainScaffold(),
       debugShowCheckedModeBanner: false,

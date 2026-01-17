@@ -8,8 +8,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sahayak'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
       ),
       body: Center(
         child: Column(
@@ -18,12 +16,16 @@ class HomeScreen extends StatelessWidget {
             Icon(
               Icons.home,
               size: 100,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              color: Theme.of(context).colorScheme.tertiary, // Soft Teal
             ),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               'Welcome to Sahayak',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
             const SizedBox(height: 10),
             const Text(

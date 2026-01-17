@@ -10,49 +10,70 @@ class OfflineIndicator extends StatefulWidget {
 }
 
 class _OfflineIndicatorState extends State<OfflineIndicator> {
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
   bool _isOnline = true;
+  bool _supportsConnectivity = true;
 
   @override
   void initState() {
     super.initState();
     _checkConnectivity();
-    _connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((List<ConnectivityResult> result) {
-      setState(() {
-        _isOnline = result.isNotEmpty && result.first != ConnectivityResult.none;
+    _setupConnectivityListener();
+  }
+
+  void _setupConnectivityListener() {
+    try {
+      _connectivitySubscription = Connectivity()
+          .onConnectivityChanged
+          .listen((List<ConnectivityResult> result) {
+        setState(() {
+          _isOnline = result.isNotEmpty && result.first != ConnectivityResult.none;
+        });
       });
-    });
+    } catch (e) {
+      // Connectivity not supported on this platform (e.g., web in dev mode)
+      setState(() {
+        _supportsConnectivity = false;
+        _isOnline = true; // Assume online
+      });
+    }
   }
 
   Future<void> _checkConnectivity() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    setState(() {
-      _isOnline = connectivityResult.isNotEmpty &&
-          connectivityResult.first != ConnectivityResult.none;
-    });
+    try {
+      final connectivityResult = await Connectivity().checkConnectivity();
+      setState(() {
+        _isOnline = connectivityResult.isNotEmpty &&
+            connectivityResult.first != ConnectivityResult.none;
+      });
+    } catch (e) {
+      // Ignore connectivity check errors on unsupported platforms
+      setState(() {
+        _supportsConnectivity = false;
+        _isOnline = true;
+      });
+    }
   }
 
   @override
   void dispose() {
-    _connectivitySubscription.cancel();
+    _connectivitySubscription?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_isOnline) {
-      return const SizedBox.shrink(); // Hide when online
+    if (_isOnline || !_supportsConnectivity) {
+      return const SizedBox.shrink(); // Hide when online or not supported
     }
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       color: Colors.orange.shade700,
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Icon(Icons.cloud_off, color: Colors.white, size: 16),
           SizedBox(width: 8),
           Text(

@@ -8,8 +8,6 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sahayak Chat'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
       ),
       body: Center(
         child: Column(
@@ -18,7 +16,7 @@ class ChatScreen extends StatelessWidget {
             Icon(
               Icons.chat_bubble_outline,
               size: 100,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              color: Theme.of(context).colorScheme.tertiary,
             ),
             const SizedBox(height: 20),
             const Text(

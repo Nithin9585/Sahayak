@@ -8,8 +8,6 @@ class StudentsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Students'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
       ),
       body: Center(
         child: Column(
@@ -18,7 +16,7 @@ class StudentsScreen extends StatelessWidget {
             Icon(
               Icons.people,
               size: 100,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              color: Theme.of(context).colorScheme.tertiary,
             ),
             const SizedBox(height: 20),
             const Text(
@@ -37,6 +35,7 @@ class StudentsScreen extends StatelessWidget {
         onPressed: () {
           // TODO: Add student
         },
+        backgroundColor: Theme.of(context).colorScheme.secondary, // Amber
         child: const Icon(Icons.add),
       ),
     );

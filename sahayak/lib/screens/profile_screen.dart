@@ -8,8 +8,6 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
       ),
       body: Center(
         child: Column(
@@ -17,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+              backgroundColor: Theme.of(context).colorScheme.tertiary.withOpacity(0.3),
               child: Icon(
                 Icons.person,
                 size: 50,
