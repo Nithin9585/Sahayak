@@ -7,27 +7,27 @@ This document outlines the step-by-step roadmap to build **Project Sahayak**, en
 ## Phase 1: Project Initialization & Foundation
 *Goal: Set up the development environment, initialize the app, and establish the core offline-first architecture.*
 
-- [ ] **1.1 Environment Setup**
-  - [ ] Install Flutter SDK (v3.19+): Download from `flutter.dev`.
-  - [ ] Install Dart SDK (bundled with Flutter).
-  - [ ] Install Android Studio (for Android emulator) or VS Code with Flutter extension.
-  - [ ] Run `flutter doctor` to verify installation.
-  - [ ] Set up Git repository and initial commit.
-- [ ] **1.2 App Initialization**
-  - [ ] Create Flutter project: `flutter create sahayak`.
-  - [ ] Install Navigation: `go_router` package.
-  - [ ] Install UI Library: `flutter_material` (built-in) + `flutter_animate` for animations.
+- [x] **1.1 Environment Setup**
+  - [x] Install Flutter SDK (v3.19+): Download from `flutter.dev`.
+  - [x] Install Dart SDK (bundled with Flutter).
+  - [x] Install Android Studio (for Android emulator) or VS Code with Flutter extension.
+  - [x] Run `flutter doctor` to verify installation.
+  - [x] Set up Git repository and initial commit.
+- [x] **1.2 App Initialization**
+  - [x] Create Flutter project: `flutter create sahayak`.
+  - [x] Install Navigation: `go_router` package.
+  - [x] Install UI Library: `flutter_material` (built-in) + `flutter_animate` for animations.
 - [ ] **1.3 Offline-First Database Setup (Isar)**
-  - [ ] Install Isar: `flutter pub add isar isar_flutter_libs`.
-  - [ ] Install dev dependencies: `flutter pub add -d isar_generator build_runner`.
-  - [ ] Define Database Schemas (Isar models):
-    - [ ] `Teacher` (Profile, School ID, subjects).
-    - [ ] `Student` (Name, FLN Level, Group assignment).
-    - [ ] `Assessment` (Student ID, Date, Rubric scores, Level calculated).
-    - [ ] `Activity` (Nali Kali/TaRL content cache).
-    - [ ] `MicroStrategy` (Classroom management techniques).
-    - [ ] `ChatHistory` (RAG queries and responses).
-  - [ ] Generate Isar files: `dart run build_runner build`.
+  - [x] Install Isar: `flutter pub add isar isar_flutter_libs`.
+  - [x] Install dev dependencies: `flutter pub add -d isar_generator build_runner`.
+  - [x] Define Database Schemas (Isar models):
+    - [x] `Teacher` (Profile, School ID, subjects).
+    - [x] `Student` (Name, FLN Level, Group assignment).
+    - [x] `Assessment` (Student ID, Date, Rubric scores, Level calculated).
+    - [x] `Activity` (Nali Kali/TaRL content cache).
+    - [x] `MicroStrategy` (Classroom management techniques).
+    - [x] `ChatHistory` (RAG queries and responses).
+  - [x] Generate Isar files: `dart run build_runner build`.
   - [ ] Configure sync logic to backend CouchDB using `dio` package (when online).
 - [ ] **1.4 Application Shell**
   - [ ] Build Main Layout: Bottom Navigation Bar (Home, Students, Chat, Profile).
